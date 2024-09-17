@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room - {{ room_code }}</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Chat Room: {{ room_code }}</h2>
+        <div id="messages" class="messages"></div>
+        <input type="text" id="message-input" placeholder="Type a message...">
+        <button id="send-button">Send</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var room = "{{ room_code }}";
+
+        // Join the chat room on page load
+        socket.emit('join', {room: room});
+
+        // Send message when the send button is clicked
+        document.getElementById('send-button').onclick = function() {
+            var message = document.getElementById('message-input').value;
+            if (message) {
+                socket.emit('message', {msg: message, room: room});  // Emit message to server
+                document.getElementById('message-input').value = '';  // Clear input field
+            }
+        };
+
+        // Append incoming messages to the chat box
+        socket.on('message', function(msg) {
+            var messageElement = document.createElement('div');
+            messageElement.textContent = msg;
+            document.getElementById('messages').appendChild(messageElement);
+        });
+    </script>
+</body>
+</html>

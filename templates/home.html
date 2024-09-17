@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application - Home</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="chat-container">
+        <h2>Create a Chat Room</h2>
+        <form action="/create-room" method="POST">
+            <button type="submit">Create Room</button>
+        </form>
+        
+        <h2>Join a Chat Room</h2>
+        <form action="/join-room" method="POST">
+            <input type="text" name="room_code" placeholder="Enter 4-digit room code" required>
+            <button type="submit">Join Room</button>
+        </form>
+        
+        {% if error %}
+        <p style="color: red;">{{ error }}</p>
+        {% endif %}
+    </div>
+</body>
+</html>
