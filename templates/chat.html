@@ -12,6 +12,11 @@
         <div id="messages" class="messages"></div>
         <input type="text" id="message-input" placeholder="Type a message...">
         <button id="send-button">Send</button>
+
+        <!-- Leave Room Button -->
+        <form action="/">
+            <button type="submit">Leave Room</button>
+        </form>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
@@ -37,6 +42,11 @@
             messageElement.textContent = msg;
             document.getElementById('messages').appendChild(messageElement);
         });
+
+        // Leave the chat room when the user leaves
+        document.querySelector('form').onsubmit = function() {
+            socket.emit('leave', {room: room});
+        };
     </script>
 </body>
 </html>
